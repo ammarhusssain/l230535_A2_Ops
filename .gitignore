@@ -6,3 +6,4 @@ models/
 tuner/
 *.keras
 *.db
+data/raw/
