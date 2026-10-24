@@ -1,4 +1,7 @@
 import sys, mlflow, matplotlib.pyplot as plt, tensorflow as tf
+from dotenv import load_dotenv
+
+load_dotenv()
 
 lr = float(sys.argv[1])
 (x, y), (xt, yt) = tf.keras.datasets.mnist.load_data(); x, xt = x / 255., xt / 255.
