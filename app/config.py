@@ -1,4 +1,6 @@
 import os
+
+
 class Config:
     INFERENCE_MODE = os.getenv('INFERENCE_MODE', 'local')
     MODEL_PATH = os.getenv('MODEL_PATH', 'models/champion.keras')

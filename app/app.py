@@ -9,18 +9,20 @@ from app.db import init_db, save_prediction, recent_predictions, db_ok
 
 ALLOWED = {'jpg', 'jpeg', 'png', 'webp', 'bmp', 'gif'}
 
+
 def validate(file):
     if not file or file.filename == '':
         abort(400, 'No file selected.')
-    name = secure_filename(file.filename)                       
+    name = secure_filename(file.filename)
     if '.' not in name or name.rsplit('.', 1)[1].lower() not in ALLOWED:
         abort(415, 'Only JPG, PNG, WEBP, BMP or GIF images are accepted.')
-    data = file.read()                                           
+    data = file.read()
     try:
-        Image.open(io.BytesIO(data)).verify()                    
+        Image.open(io.BytesIO(data)).verify()
     except (UnidentifiedImageError, OSError, SyntaxError):
         abort(422, 'This file has an image extension but cannot be decoded as an image.')
     return name, data
+
 
 def create_app():
     app = Flask(__name__)
@@ -64,5 +66,6 @@ def create_app():
         return render_template('error.html', code=e.code, message=e.description), e.code
 
     return app
+
 
 app = create_app()
