@@ -1,0 +1,11 @@
+{% extends 'base.html' %}{% block content %}
+<div class="card">
+    <h1 class="{{ 'ai' if r.label == 'AI-generated' else 'real' }}">{{ r.label }}</h1>
+    <p>Confidence: <b>{{ '%.1f'|format(r.confidence * 100) }}%</b> &middot; file: {{ filename }}</p>
+    <div class="bar"><span style="width: {{ r.probability_ai * 100 }}%"></span></div>
+    <p class="hint">P(AI) = {{ r.probability_ai }}, threshold {{ r.threshold }}, model {{ r.model_name }} v{{
+        r.model_version }}</p>
+    <p class="caveat">Caveat: this is a statistical estimate from a model trained on a limited dataset. It can be wrong,
+        especially on edited, compressed or artistic images. Do not use it as proof.</p>
+    <a href="/">Analyse another image</a>
+</div>{% endblock %}

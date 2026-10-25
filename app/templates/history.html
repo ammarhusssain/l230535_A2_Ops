@@ -1,0 +1,23 @@
+{% extends 'base.html' %}{% block content %}
+<h1>Prediction history</h1>
+<table>
+    <tr>
+        <th>Time (UTC)</th>
+        <th>File</th>
+        <th>Verdict</th>
+        <th>Confidence</th>
+        <th>Model</th>
+        <th>Source</th>
+    </tr>
+    {% for p in rows %}<tr>
+        <td>{{ p.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+        <td>{{ p.filename }}</td>
+        <td>{{ p.label }}</td>
+        <td>{{ '%.1f'|format(p.confidence * 100) }}%</td>
+        <td>{{ p.model_name }} v{{ p.model_version }}</td>
+        <td>{{ p.source }}</td>
+    </tr>
+    {% else %}<tr>
+        <td colspan="6">No predictions yet.</td>
+    </tr>{% endfor %}
+</table>{% endblock %}

@@ -1,0 +1,97 @@
+body {
+    font-family: system-ui, sans-serif;
+    margin: 0;
+    background: #f5f6f8;
+    color: #1d2330
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+    padding: 14px 24px;
+    background: #1d2330
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none
+}
+
+.brand {
+    font-weight: 700
+}
+
+main {
+    max-width: 820px;
+    margin: 32px auto;
+    padding: 0 16px
+}
+
+.card {
+    background: #fff;
+    padding: 24px;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px #0001
+}
+
+button {
+    background: #2f6fed;
+    color: #fff;
+    border: 0;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer
+}
+
+.hint {
+    color: #667;
+    font-size: 14px
+}
+
+.caveat {
+    background: #fff7e6;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 14px
+}
+
+.ai {
+    color: #c0392b
+}
+
+.real {
+    color: #1e8449
+}
+
+.bar {
+    height: 10px;
+    background: #e3e6ea;
+    border-radius: 5px
+}
+
+.bar span {
+    display: block;
+    height: 100%;
+    background: #2f6fed;
+    border-radius: 5px
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff
+}
+
+td,
+th {
+    padding: 8px;
+    border-bottom: 1px solid #e3e6ea;
+    text-align: left;
+    font-size: 14px
+}
+
+footer {
+    text-align: center;
+    color: #999;
+    padding: 20px
+}

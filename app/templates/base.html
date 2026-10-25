@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>VisionGuard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <nav><a class="brand" href="/">VisionGuard</a><a href="/">Upload</a><a href="/history">History</a></nav>
+    <main>{% block content %}{% endblock %}</main>
+    <footer>l230535_A2_Ops</footer>
+</body>
+
+</html>
