@@ -1,0 +1,6 @@
+flask==3.*
+ai-edge-litert
+numpy
+pillow
+sqlalchemy==2.*
+psycopg2-binary
