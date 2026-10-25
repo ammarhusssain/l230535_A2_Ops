@@ -1,4 +1,4 @@
-# VisionGuard — l230535_A2_Ops
+# VisionGuard - l230535_A2_Ops
 
 ![CI](https://github.com/ammarhusssain/l230535_A2_Ops/actions/workflows/ci.yml/badge.svg)
 
