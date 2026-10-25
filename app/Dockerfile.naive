@@ -1,0 +1,5 @@
+FROM python:3.12
+WORKDIR /app
+COPY . .
+RUN pip install flask tensorflow==2.21.* pillow sqlalchemy psycopg2-binary requests gunicorn
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "app.app:app"]

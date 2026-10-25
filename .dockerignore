@@ -1,0 +1,13 @@
+.git
+venv
+.env
+data
+mlruns
+mlflow.db
+tuner
+reports
+models
+src
+**/__pycache__
+*.db
+*.png
