@@ -4,6 +4,14 @@ import tensorflow as tf
 IMG = 224
 
 
+class ModelServiceError(Exception):
+    """Raised when the cloud model API cannot answer (unreachable, rejected, or failed)."""
+
+    def __init__(self, code, message):
+        super().__init__(message)
+        self.code, self.message = code, message
+
+
 class LocalPredictor:
     """Loads the model ONCE when the app starts."""
 
@@ -17,7 +25,7 @@ class LocalPredictor:
         img = tf.image.resize(img, [IMG, IMG])
         return tf.cast(img, tf.float32)[None]
 
-    def predict(self, data: bytes):
+    def predict(self, data: bytes, filename=None):
         t = time.perf_counter()
         p = float(self.model(self.preprocess(data), training=False)[0][0])
         is_ai = p >= self.threshold
@@ -33,9 +41,17 @@ class RemotePredictor:
     def __init__(self, cfg):
         self.url, self.key = cfg.API_URL.rstrip('/') + '/api/predict', cfg.API_KEY
 
-    def predict(self, data: bytes):
-        r = requests.post(self.url, files={'image': ('upload', data)}, headers={'X-API-Key': self.key}, timeout=30)
-        r.raise_for_status()
+    def predict(self, data: bytes, filename='upload.jpg'):
+        try:
+            r = requests.post(self.url, files={'image': (filename, data)}, headers={'X-API-Key': self.key}, timeout=30)
+        except requests.RequestException:
+            raise ModelServiceError(503, 'The model service is unreachable. Please try again shortly.')
+        if r.status_code != 200:
+            try:
+                msg = r.json().get('error', r.text)
+            except ValueError:
+                msg = r.text[:200]
+            raise ModelServiceError(502 if r.status_code >= 500 else r.status_code, f'Model service error: {msg}')
         return r.json()
 
 

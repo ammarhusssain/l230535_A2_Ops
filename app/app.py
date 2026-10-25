@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException
 from PIL import Image, UnidentifiedImageError
 from app.config import Config
-from app.inference import build_predictor
+from app.inference import build_predictor, ModelServiceError
 from app.db import init_db, save_prediction, recent_predictions, db_ok
 
 ALLOWED = {'jpg', 'jpeg', 'png', 'webp', 'bmp', 'gif'}
@@ -30,6 +30,12 @@ def create_app():
     init_db(Config.DATABASE_URL)
     predictor = build_predictor(Config)
 
+    def run_model(data, name):
+        try:
+            return predictor.predict(data, name)
+        except ModelServiceError as e:      # remote mode: cloud API down or rejected the request
+            abort(e.code, e.message)
+
     @app.get('/')
     def index():
         return render_template('index.html', max_mb=Config.MAX_CONTENT_LENGTH // 1048576)
@@ -37,7 +43,7 @@ def create_app():
     @app.post('/predict')
     def predict():
         name, data = validate(request.files.get('image'))
-        res = predictor.predict(data)
+        res = run_model(data, name)
         save_prediction(name, res, source='web', client_ip=request.remote_addr)
         return render_template('result.html', r=res, filename=name)
 
@@ -55,7 +61,7 @@ def create_app():
         if not Config.API_KEY or request.headers.get('X-API-Key') != Config.API_KEY:
             return jsonify(error='invalid or missing API key'), 401
         name, data = validate(request.files.get('image'))
-        res = predictor.predict(data)
+        res = run_model(data, name)
         save_prediction(name, res, source='api', client_ip=request.remote_addr)
         return jsonify(res)
 
