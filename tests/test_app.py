@@ -1,7 +1,10 @@
-from app.app import create_app
 import io
 import os
+
+# Must be set BEFORE importing the app: remote mode means no model file is needed in CI
 os.environ.update(INFERENCE_MODE='remote', API_URL='http://example.invalid', API_KEY='k', DATABASE_URL='sqlite://')
+
+from app.app import create_app  # noqa: E402
 
 client = create_app().test_client()
 
